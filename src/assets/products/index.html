@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuzion Air Coolers</title>
+    <!--Link To Css-->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./src/output.css" />
+    <!--Box Icons-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/android-icon-192x192.png"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <!--Navbar-->
+    <header>
+      <a href="#" class="logo">Fu<span>zion&reg</span></a>
+      <div class="bx bx-menu" id="menu-icon"></div>
+
+      <ul class="navbar">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <!-- <li><a href="#new">New Arrival</a></li> -->
+        <li><a href="#about">About</a></li>
+        <li><a href="#brochure">Brochure</a></li>
+        <li><a href="#testimonials">Testimonials </a></li>
+        <li><a href="#quote">Contact</a></li>
+      </ul>
+    </header>
+    <!--Home-->
+    <section class="home" id="home">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="home-text">
+        <h1>
+          <span>Your </span>Comfort <br />
+          Is Our <span>Happiness</span>
+        </h1>
+        <p>
+          Transforming warmth into delight, our air coolers promise a blissful
+          escape. Elevate your comfort with our dedication to happiness.
+        </p>
+        <a href="#explore" class="btn">Explore Now</a>
+      </div>
+    </section>
+
+    <!--shop-->
+    <section id="explore" class="container mx-auto px-4 py-16">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800">Explore Now</h2>
+        <form class="flex justify-center gap-x-3 mb-8" id="categoryForm">
+          <select
+            name="category"
+            id="category"
+            class="border-2 w-full md:w-[250px] p-2 rounded-md"
+          >
+            <option value="all">All Categories</option>
+            <option value="coolers">Coolers</option>
+            <option value="fans">Fans</option>
+            <option value="air-conditioners">Air Conditioners</option>
+          </select>
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+          >
+            Filter
+          </button>
+        </form>
+      </div>
+      <div
+        id="productContainer"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      ></div>
+    </section>
+
+    <div
+      id="productModal"
+      class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden"
+    >
+      <div
+        class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white"
+      >
+        <div id="modalContent"></div>
+        <div class="text-center mt-4">
+          <button
+            id="closeModal"
+            class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Arrival
+<section class="new" id="new">
+    <div class="heading">
+        <span>New Collection</span>
+        <h2>Best sellings</h2>
+    </div>
+
+    
+    <div class="new-container">
+    
+    <div class="box">
+            <div class="box-img">
+                <img src="img/new1.jpg" alt="">
+            </div>
+            <div class="title-price">
+                <h3>Gray Chair</h3>
+                <div class="stars">
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star-half' ></i>
+                </div>
+            </div>
+            
+        </div>
+
+    
+    <div class="box">
+            <div class="box-img">
+                <img src="img/new4.jpg" alt="">
+            </div>
+            <div class="title-price">
+                <h3>Gray Chair</h3>
+                <div class="stars">
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star-half' ></i>
+                </div>
+            </div>
+            
+    </div>
+
+    
+    <div class="box">
+        <div class="box-img">
+            <img src="img/new2.jpg" alt="">
+        </div>
+        <div class="title-price">
+            <h3>Gray Chair</h3>
+            <div class="stars">
+                <i class='bx bxs-star' ></i>
+                <i class='bx bxs-star' ></i>
+                <i class='bx bxs-star' ></i>
+                <i class='bx bxs-star' ></i>
+                <i class='bx bxs-star-half' ></i>
+            </div>
+        </div>
+        
+    </div>
+
+        
+
+        <div class="box">
+            <div class="box-img">
+                <img src="img/new5.jpg" alt="">
+            </div>
+            <div class="title-price">
+                <h3>Gray Chair</h3>
+                <div class="stars">
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star-half' ></i>
+                </div>
+            </div>
+            
+        </div>
+
+
+        
+
+        <div class="box">
+            <div class="box-img">
+                <img src="img/new3.jpg" alt="">
+            </div>
+            <div class="title-price">
+                <h3>Gray Chair</h3>
+                <div class="stars">
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star-half' ></i>
+                </div>
+            </div>
+            
+        </div>
+        
+
+        <div class="box">
+            <div class="box-img">
+                <img src="img/new6.jpg" alt="">
+            </div>
+            <div class="title-price">
+                <h3>Gray Chair</h3>
+                <div class="stars">
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star' ></i>
+                    <i class='bx bxs-star-half' ></i>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section> -->
+
+    <!--About-->
+    <section class="about" id="about">
+      <div class="about-img">
+        <img src="img/about.JPG" alt="" />
+      </div>
+      <div class="about-text">
+        <span>About Us</span>
+        <h2>
+          Air cooler is important part <br />
+          for comfort
+        </h2>
+        <p>
+          With a legacy spanning 33 years, we are proud to be one of the leading
+          air cooler manufacturers in India. Our commitment to excellence in
+          both product and service has established us as a trusted name in the
+          industry.
+        </p>
+        <p>
+          Each year, we push the boundaries of innovation, designing new and
+          improved coolers to meet the evolving needs of our customers. Our
+          dedication to quality ensures that every product we deliver is the
+          best-in-class, setting new standards in the market.
+        </p>
+        <p>
+          At our factory, we blend cutting-edge technology with skilled
+          craftsmanship to create air coolers that provide unparalleled
+          performance and reliability. Customer satisfaction is at the core of
+          everything we do, driving us to continually raise the bar and exceed
+          expectations.
+        </p>
+        <p>
+          From homes to offices, our coolers are designed to deliver comfort and
+          convenience, enriching the lives of millions across the country.
+          Experience the difference with our range of products, and join the
+          thousands who trust us for their cooling needs.
+        </p>
+        <a href="#About Us" class="btn">Learn More</a>
+      </div>
+    </section>
+
+    <section id="brochure">
+      <h2>Brochure</h2>
+      <p>
+        Welcome to our brochure section! Learn more about our products and
+        services by downloading our brochure.
+      </p>
+      <div class="brochure-download">
+        <a href="img/brochure_2024.pdf" download class="btn-download"
+          >Download Brochure</a
+        >
+      </div>
+    </section>
+
+    <!-- Brands
+<section class="brands" id="brands">
+    <div class="heading">
+        <span>Brands</span>
+        <h3>Our Brands partners</h3>
+    </div>
+    <div class="brands-container">
+        <img src="img/Google.png" alt="">
+        <img src="img/amazon.png" alt="">
+        <img src="img/netflix.png" alt="">
+        <img src="img/tesla.png" alt="">
+        <img src="img/starbucks.png" alt="">
+        <img src="img/zoom.png" alt="">
+    </div>
+</section> -->
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+      <div class="heading">
+        <span>Testimonials</span>
+        <h3>What Our Customers Say</h3>
+      </div>
+      <div class="testimonials-container">
+        <div class="testimonial">
+          <img src="img/Anil_shivpuri.JPG" alt="Customer 1" />
+          <p>
+            "Our offices are now cooler and more comfortable thanks to the bulk
+            purchase of Fuzion air coolers. Efficient and reliable, they're a
+            great investment for any business."
+          </p>
+          <h4>Kartik Shivpuri</h4>
+          <p>Owner, Kartik Traders, Shivpuri</p>
+        </div>
+        <div class="testimonial">
+          <img src="img/Jitin_gupta.JPG" alt="Customer 2" />
+          <p>
+            "With these Fuzion air coolers, our hospitality venues now offer
+            refreshing environments for guests. Easy to install and
+            cost-effective, they're a smart choice for businesses."
+          </p>
+          <h4>Jitin Gupta</h4>
+          <p>Founder, Pacific appliances, Bikaner</p>
+        </div>
+        <div class="testimonial">
+          <img src="img/satbir.jpg" alt="Customer 3" />
+          <p>
+            "Our school district upgraded classrooms with reliable air coolers,
+            ensuring comfortable learning environments. Affordable and
+            efficient, they're perfect for educational settings."
+          </p>
+          <h4>Satbir Verma</h4>
+          <p>Customer</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative py-16 px-4 sm:px-6 lg:px-8 get-quote" id="quote">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="relative max-w-lg mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+            Get a Quote
+          </h2>
+          <p class="mt-4 text-xl text-gray-300">
+            Interested in our products? Request a quote today!
+          </p>
+        </div>
+        <form class="grid grid-cols-1 gap-y-6" action="#" method="POST">
+          <div>
+            <label for="name" class="sr-only">Your Name</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              autocomplete="name"
+              class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div>
+            <label for="email" class="sr-only">Your Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              autocomplete="email"
+              class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+              placeholder="Your Email"
+              required
+            />
+          </div>
+          <div>
+            <label for="message" class="sr-only">Your Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+              placeholder="Your Message"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <button
+              type="submit"
+              class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer" id="footer">
+      <div class="footer-box">
+        <h2>Fu<span>zion&reg</span></h2>
+        <p>
+          Crafting quality air coolers for a refreshing tomorrow, we're your
+          trusted cooling partner. Experience enhanced comfort with our
+          precision-crafted air cooling solutions, where every breath counts.
+        </p>
+        <div class="social">
+          <a href="https://www.facebook.com/FUZIONCOOLERS?mibextid=LQQJ4d"
+            ><i class="bx bxl-facebook"></i
+          ></a>
+          <a href="#"><i class="bx bxl-twitter"></i></a>
+          <a href="https://www.facebook.com/FUZIONCOOLERS?mibextid=LQQJ4d"
+            ><i class="bx bxl-instagram"></i
+          ></a>
+        </div>
+      </div>
+      <div class="footer-box">
+        <h3>Services</h3>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Help & Support</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">FAQ</a></li>
+      </div>
+      <div class="footer-box">
+        <h3>Other Products</h3>
+        <li><a href="#">Sofa's</a></li>
+        <li><a href="#">Chair's</a></li>
+        <li><a href="#">Living Room</a></li>
+        <li><a href="#">Office Stuff</a></li>
+      </div>
+      <div class="footer-box contact-info">
+        <h3>Contact</h3>
+        <span>Chandan Nagar(Hisar), Haryana, India 125004</span>
+        <span>+91 99963-84086</span>
+        <span>fuzioncoolers@gmail.com</span>
+      </div>
+    </section>
+
+    <div class="copyright">
+      <p>&#169; Fuzion&reg All Right Reserved.</p>
+    </div>
+
+    <!-- Links To JS -->
+    <script>
+      const products = [
+        {
+          name: "FZ-101",
+          image: "img/FZ-101.jpeg",
+          specs: [
+            { label: "Size", value: '19" x 27" x 50"' },
+            { label: "Exhaust", value: '1.25" Copper' },
+            { label: "Blade", value: '17" Aluminium' },
+            { label: "Pump", value: "40W Strong Pump" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-102",
+          image: "img/FZ-102.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-103-Counter",
+          image: "img/FZ-103.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-404",
+          image: "img/FZ-404.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-505",
+          image: "img/FZ-505.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-707",
+          image: "img/FZ-707.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-808",
+          image: "img/FZ-808.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+        {
+          name: "FZ-909",
+          image: "img/FZ-0009.jpeg",
+          specs: [
+            { label: "Size", value: '18" x 23" x 45"' },
+            { label: "Motor", value: "32 M.M 110 ALM." },
+            { label: "Blade", value: '15" Aluminium' },
+            { label: "Pump", value: "18W" },
+            { label: "Coating", value: "Narolac Power Coated" },
+          ],
+        },
+      ];
+
+      function createProductCard(product) {
+        const card = document.createElement("div");
+        card.className =
+          "bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105";
+
+        card.innerHTML = `
+            <div class="box">
+                <div class="box-content">
+                    <div class="box-img">
+                        <img src="${product.image}" alt="${product.name}" />
+                    </div>
+                    <div class="title-price">
+                        <h3>FZ-909</h3>
+                        <div class="flex mb-2">
+                            ${Array(5)
+                              .fill()
+                              .map(
+                                (_, i) => `
+                                  <svg class="w-5 h-5 ${
+                                    i < 4 ? "text-yellow-400" : "text-gray-300"
+                                  }" fill="currentColor" viewBox="0 0 20 20">
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                  </svg>
+                              `
+                              )
+                              .join("")}
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details">
+                    <h2>Specifications</h2>
+                    <ul>
+                       ${product.specs
+                         .map(
+                           (spec) =>
+                             `<li><strong>${spec.label}:</strong> ${spec.value}</li>`
+                         )
+                         .join("")}
+                    </ul>
+                </div>
+                <button class="bx know-more-btn learn-more" data-product="${
+                  product.name
+                }">Know More</button>
+            </div>
+          `;
+
+        return card;
+      }
+
+      function displayProducts(category = "all") {
+        const container = document.getElementById("productContainer");
+        container.innerHTML = "";
+
+        const filteredProducts =
+          category === "all"
+            ? products
+            : products.filter((product) => product.category === category);
+
+        filteredProducts.forEach((product) => {
+          container.appendChild(createProductCard(product));
+        });
+      }
+
+      function showModal(product) {
+        const modal = document.getElementById("productModal");
+        const modalContent = document.getElementById("modalContent");
+
+        modalContent.innerHTML = `
+            <h2 class="text-2xl font-bold mb-4">${product.name}</h2>
+            <img src="${product.image}" alt="${
+          product.name
+        }" class=h-64 rounded-lg mb-4">
+            <h3 class="text-xl font-semibold mb-2">Specifications</h3>
+            <ul class="list-disc list-inside mb-4">
+                ${product.specs
+                  .map(
+                    (spec) =>
+                      `<li><strong>${spec.label}:</strong> ${spec.value}</li>`
+                  )
+                  .join("")}
+                </ul>
+            `;
+
+        modal.classList.remove("hidden");
+      }
+
+      function hideModal() {
+        const modal = document.getElementById("productModal");
+        modal.classList.add("hidden");
+      }
+
+      window.onload = () => {
+        displayProducts();
+
+        document
+          .getElementById("categoryForm")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            const category = document.getElementById("category").value;
+            displayProducts(category);
+          });
+
+        document.addEventListener("click", (e) => {
+          if (e.target.classList.contains("learn-more")) {
+            const productName = e.target.getAttribute("data-product");
+            const product = products.find((p) => p.name === productName);
+            if (product) {
+              showModal(product);
+            }
+          }
+        });
+
+        document
+          .getElementById("closeModal")
+          .addEventListener("click", hideModal);
+
+        document
+          .getElementById("productModal")
+          .addEventListener("click", (e) => {
+            if (e.target === document.getElementById("productModal")) {
+              hideModal();
+            }
+          });
+      };
+    </script>
+    <script src="main.js"></script>
+  </body>
+</html>

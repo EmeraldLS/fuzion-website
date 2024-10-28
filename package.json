@@ -1,0 +1,37 @@
+{
+  "name": "fuzion-website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/tailwind": "^5.1.2",
+    "@emailjs/browser": "^4.4.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@wojtekmaj/react-hooks": "^1.21.0",
+    "astro": "^4.16.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "emailjs": "^4.0.3",
+    "framer-motion": "^11.11.10",
+    "izitoast": "^1.4.0",
+    "lucide-react": "^0.453.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-pdf": "^9.1.1",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss": "^3.4.14",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import { formatCurrency } from "@/utils/utils";
+import type { ProductItem } from "@/model/model";
+interface Props {
+  product: ProductItem;
+}
+
+const {
+  product: { name, image, price, isNew, id, rating, discountPercent },
+} = Astro.props;
+
+const discountedPrice = price - (price * discountPercent) / 100;
+---
+
+<div class="mix mix-grid col-span-6 sm:col-span-3 lg:col-span-2" style="">
+  <div
+    class="relative flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg hover:shadow-xl"
+  >
+    <a href={`/products/${id}`} class="block h-[270px]">
+      <Image src={image} alt={name} class="h-full w-full object-contain" />
+    </a>
+    <div class="mt-2 px-5">
+      <div class="border-t border-slate-300">
+        <div
+          class="rater my-2 star-rating disabled"
+          data-rater="5"
+          style="width: 70px; height: 14px; background-size: 14px;"
+          data-rating="5"
+        >
+          <div class="star-value" style="background-size: 14px; width: 100%;">
+          </div>
+        </div>
+        <a
+          href={`/products/${id}`}
+          class="my-2 line-clamp-2 text-default-600 transition-all duration-300 hover:text-main"
+        >
+          {name}
+        </a>
+        <span class="mb-2 inline-block text-base font-bold text-main">
+          {
+            discountPercent > 0
+              ? formatCurrency(discountedPrice)
+              : formatCurrency(price)
+          }
+        </span>
+        {
+          discountPercent > 0 && (
+            <span class="leading-6 text-default-400 line-through">
+              {formatCurrency(price)}
+            </span>
+          )
+        }
+      </div>
+    </div>
+    <a
+      href={`/products/${id}`}
+      class="mx-5 mb-5 mt-auto w-fit rounded-md bg-main px-3 py-2 uppercase text-white transition-all duration-300 hover:bg-main"
+    >
+      View details
+    </a>
+    {
+      isNew && (
+        <span class="pointer-events-none absolute left-4 top-4 rounded-md bg-main px-2 text-white">
+          New
+        </span>
+      )
+    }
+  </div>
+</div>

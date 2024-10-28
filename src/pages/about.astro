@@ -1,0 +1,133 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import Customer1 from "@/assets/clients/client1.jpg";
+import Customer2 from "@/assets/clients/client2.jpg";
+import Customer3 from "@/assets/clients/client3.jpg";
+import { Image } from "astro:assets";
+interface Testimonial {
+  name: string;
+  headline: string;
+  jobTitle: string;
+  image: ImageMetadata;
+  rating: number;
+}
+
+const recentTestimonials: Testimonial[] = [
+  {
+    headline:
+      "Our offices are now cooler and more comfortable thanks to the bulk purchase of Fuzion air coolers. Efficient and reliable, they're a great investment for any business.",
+    name: "Kartik Shivpuri",
+    jobTitle: "Owner, Kartik Traders, Shivpuri",
+    image: Customer1,
+    rating: 4.5,
+  },
+  {
+    headline:
+      "With these Fuzion air coolers, our hospitality venues now offer refreshing environments for guests. Easy to install and cost-effective, they're a smart choice for businesses.",
+    name: "Jitin Gupta",
+    jobTitle: "Founder, Pacific appliances, Bikaner",
+    image: Customer2,
+    rating: 5.0,
+  },
+  {
+    headline:
+      "Our school district upgraded classrooms with reliable air coolers, ensuring comfortable learning environments. Affordable and efficient, they're perfect for educational settings.",
+    name: "Satbir Verma",
+    jobTitle: "Customer",
+    image: Customer3,
+    rating: 3.5,
+  },
+];
+---
+
+<MainLayout>
+  <section class="container mx-auto my-10 px-4 sm:px-8 xl:px-4">
+    <div class="mb-8 flex items-center justify-between border-b-[3px] pb-2">
+      <h2
+        class="relative text-2xl font-bold text-default-600 after:absolute after:-bottom-[11px] after:left-0 after:h-[3px] after:w-full after:bg-main after:content-['']"
+      >
+        Our Shop
+      </h2>
+    </div>
+    <div class="grid grid-cols-2 gap-6">
+      <figure class="col-span-2 lg:col-span-1">
+        <img
+          class="h-full w-full object-cover"
+          src="img/about.jpg"
+          alt="Company"
+        />
+      </figure>
+      <div class="col-span-2 lg:col-span-1">
+        <h2 class="mb-5 text-xl font-bold text-default-600">Fuzion Coolers</h2>
+        <p class="mb-4">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit metus, fusce
+          cum blandit curabitur donec sapien quam luctus, porttitor eros
+          senectus cras fermentum egestas etiam. Rhoncus praesent nisl nam
+          quisque convallis fermentum penatibus vehicula curae, tristique quis
+          ullamcorper montes dis risus cubilia sed ac, et netus ornare
+          suspendisse consequat dignissim faucibus ante. Curae imperdiet feugiat
+          nulla consequat etiam fames egestas penatibus pulvinar purus, cum
+          nullam tellus at fringilla ultrices aliquet aliquam ut lacus.
+        </p>
+        <p>
+          Posuere mollis arcu Pellentesque iaculis gravida nulla ac hendrerit.
+          Vestibulum faucibus neque at lacus tristique eu ultrices ipsum mollis.
+          Phasellus venenatis, lacus in malesuada pellentesque, nisl ipsum
+          faucibus velit.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mx-auto my-10 px-4 sm:px-8 xl:px-4">
+    <div class="mb-8 flex items-center justify-between border-b-[3px] pb-2">
+      <h2
+        class="relative text-2xl font-bold text-default-600 after:absolute after:-bottom-[11px] after:left-0 after:h-[3px] after:w-full after:bg-main after:content-['']"
+      >
+        Testimonials
+      </h2>
+    </div>
+    <div
+      class="swiper swiper-testimonials group relative flex items-center rounded-lg pb-10"
+    >
+      <div class="swiper-wrapper">
+        {
+          recentTestimonials?.map((testimonial) => (
+            <div class="swiper-slide h-auto">
+              <div class="h-full rounded-xl bg-white p-10">
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 16 16"
+                  class="text-5xl text-main"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z" />
+                </svg>
+                <em class="my-4 flex">{testimonial.headline}</em>
+                <figure class="mt-auto flex gap-4">
+                  <div class="overflow-hidden ">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      class="object-fit h-[50px] w-[50px] rounded-full"
+                    />
+                  </div>
+                  <div>
+                    <h3 class="font-semibold">{testimonial.name}</h3>
+                    <span class="text-main">{testimonial.jobTitle}</span>
+                    <div class="rater my-2" data-rater={testimonial.rating} />
+                  </div>
+                </figure>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+</MainLayout>

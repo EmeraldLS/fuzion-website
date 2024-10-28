@@ -1,0 +1,138 @@
+---
+import "@/styles/global.css";
+
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+import CartItems from "@/components/CartItems";
+import { categories } from "@/utils/mockData";
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact Us", path: "/contact" },
+  { name: "Brochure", path: "/brochure" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/lib_public/rater-js/rater-js.css" />
+    <link rel="stylesheet" href="/lib_public/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/lib_public/metisMenu/metismenujs.min.css" />
+    <title>Fuzion</title>
+  </head>
+  <body
+    class="bg-[#f5f7fe] font-montserrat font-medium text-default-500 lg:text-sm"
+  >
+    <div class="header sticky top-0 -z-[1]"></div>
+    <Navbar />
+    <slot />
+    <Footer />
+    <div class="modal-menu modal-container resize-close modal-overlay">
+      <div
+        class="modal-content modal-left flex h-full w-[288px] min-w-[250px] flex-col bg-[#f5f7fe]"
+      >
+        <div class="w-full">
+          <button
+            class="close-modal absolute right-5 top-5 p-[3px] text-default-600"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-6 w-6"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <a href="#" class="mr-auto flex items-center gap-2 p-5 lg:mr-0">
+          <span class="text-2xl font-semibold">
+            Fu<span class="text-main">zion&reg</span>
+          </span>
+        </a>
+        <div
+          class="relative mr-5 flex items-center pr-5 font-semibold after:absolute after:right-0 after:my-auto after:h-6 after:w-px after:bg-slate-300 after:content-['']"
+        >
+          <ul class="metismenu">
+            <li>
+              <div
+                class="sub-metismenu flex cursor-pointer select-none items-center"
+              >
+                <svg
+                  class="mr-4 h-6 w-6"
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 16 16"
+                  height="200px"
+                  width="200px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+                  ></path>
+                </svg>
+                <span class="mr-8 py-3 font-semibold">
+                  Browser All Category
+                </span>
+              </div>
+              <ul
+                class="metismenu-content z-[5] w-full rounded bg-[#f5f7fe]"
+                style="position: absolute"
+              >
+                {
+                  categories.map((cat) => (
+                    <li>
+                      <a
+                        class="block px-6 py-2 transition-all duration-300 hover:text-main"
+                        href={`/${cat.id}`}
+                      >
+                        {cat.name}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="overflow-y-auto p-5">
+          <ul class="metismenu">
+            {
+              navItems.map((nav) => (
+                <li>
+                  <a
+                    href={nav.path}
+                    class="block py-3 font-bold text-default-600"
+                  >
+                    {nav.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <CartItems client:load />
+
+    <script is:inline src="/lib_public/simpleParallax/simpleParallax.min.js"
+    ></script>
+    <script is:inline src="/lib_public/rater-js/rater-js.js"></script>
+    <script is:inline src="/lib_public/swiper/swiper-bundle.min.js"></script>
+    <script is:inline src="/lib_public/metisMenu/metismenujs.min.js"></script>
+    <script is:inline src="/js/main.js"></script>
+  </body>
+</html>

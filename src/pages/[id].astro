@@ -1,0 +1,39 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import CollectionItem from "@/components/CollectionItem.astro";
+import { categories } from "@/utils/mockData";
+
+export function getStaticPaths() {
+  return categories.map((category) => {
+    return {
+      params: { id: category.id },
+      props: { category },
+    };
+  });
+}
+
+const {
+  category: { name, products },
+} = Astro.props;
+---
+
+<MainLayout>
+  <div class="py-10 container ml-28">
+    <div class="mb-6 grid grid-cols-8 gap-7">
+      <div class="order-1 col-span-8 lg:order-2 lg:col-span-12">
+        <p class="text-center text-4xl pb-5 font-semibold">
+          {name}
+        </p>
+        <div
+          class="mix-container mix-shop grid grid-cols-8 gap-5"
+          id="MixItUp9C3B89"
+        >
+          {
+            products &&
+              products?.map((product) => <CollectionItem product={product} />)
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
