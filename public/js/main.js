@@ -738,24 +738,13 @@ const emailJs = () => {
       const serviceID = "service_b54cns6";
       const templateID = "template_4symnru";
 
-      const name = element.querySelector("#contact-name");
-      const subject = element.querySelector("#contact-subject");
-      const email = element.querySelector("#contact-email");
-      const message = element.querySelector("#contact-message");
-
-      const data = {
-        name,
-        subject,
-        email,
-        message,
-      };
-
       emailjs.init("nKXc5K2Gk8KCBUaPJ");
 
       emailjs.sendForm(serviceID, templateID, element).then(
         () => {
           btn.textContent = "Send message";
-          notifyMessage();
+          element.reset();
+          alert("Message sent successfully!");
         },
         (err) => {
           btn.textContent = "Send message";
