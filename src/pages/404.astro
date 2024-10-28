@@ -3,5 +3,24 @@ import MainLayout from "@/layouts/MainLayout.astro";
 ---
 
 <MainLayout>
-  <div>Hello world</div>
+  <div
+    class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-primary to-main text-center px-4"
+  >
+    <h1 class="text-6xl font-bold mb-4">404</h1>
+    <p class="text-2xl mb-8">Oops! Page not found</p>
+    <div
+      class="w-16 h-16 mb-8 border-4 border-main border-t-transparent rounded-full animate-spin"
+    >
+    </div>
+    <p class="text-lg mb-8 max-w-md">
+      The page you are looking for might have been removed, had its name
+      changed, or is temporarily unavailable.
+    </p>
+    <a
+      href="/"
+      class="px-6 py-3 bg-main text-primary rounded-full font-semibold hover:bg-main/90 transition-colors"
+    >
+      Go Home
+    </a>
+  </div>
 </MainLayout>

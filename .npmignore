@@ -1,0 +1,11 @@
+node_modules/
+
+dist/
+biuld/
+.env
+.env.local
+.env.*.local
+.vscode/
+.idea/
+.git/
+.DS_Store
