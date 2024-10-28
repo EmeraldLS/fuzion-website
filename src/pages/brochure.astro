@@ -1,5 +1,9 @@
 ---
+import PDFViewer from "@/components/pdf-viewer";
 import MainLayout from "@/layouts/MainLayout.astro";
+import BrochurePDF from "@/assets/brochure_2024.pdf";
 ---
 
-<MainLayout> Gonna display brochure pdf here </MainLayout>
+<MainLayout title="View PDF">
+  <PDFViewer client:load pdfUrl={BrochurePDF} />
+</MainLayout>
