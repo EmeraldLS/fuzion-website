@@ -1,0 +1,40 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import ProductUploadForm from "@/components/ProductUpload";
+import ProductList from "@/components/ProductList";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const pageTitle = "Admin Dashboard";
+---
+
+<AdminLayout title={pageTitle}>
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-8">Product Management</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>Upload New Product</CardTitle>
+          <CardDescription>Add a new product to the catalog</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProductUploadForm client:load />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Product List</CardTitle>
+          <CardDescription>Manage existing products</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProductList client:load />
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+</AdminLayout>

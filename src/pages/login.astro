@@ -1,0 +1,146 @@
+---
+import Layout from "@/layouts/MainLayout.astro";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const title = "Login to Your Account";
+let error = Astro.url.searchParams.get("error");
+
+const userIp =
+  Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
+
+const accessibleIPs = import.meta.env.AccessibleIPS.split(",");
+
+const isIpAllowed = accessibleIPs.includes(userIp);
+
+if (!isIpAllowed) {
+  error = "Access denied. Contact Admin!";
+}
+
+const registered = Astro.url.searchParams.get("registered");
+---
+
+<Layout title={title}>
+  <main
+    class="flex items-center justify-center min-h-[80svh] py-8 relative overflow-hidden"
+  >
+    <div
+      id="redirect-overlay"
+      class="fixed inset-0 bg-green-500 transform translate-x-full transition-transform duration-500 ease-in-out z-50 flex items-center justify-center"
+    >
+      <p class="text-white text-4xl font-bold">Welcome! Please login again..</p>
+    </div>
+    <Card className="w-full max-w-md">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">{title}</CardTitle
+        >
+        <CardDescription className="text-center">
+          Enter your email and password to access your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {
+          error && (
+            <div class="mb-4 bg-red-400 text-white text-sm rounded-md p-3 text-center">
+              {error}
+            </div>
+          )
+        }
+        {
+          registered && (
+            <div class="mb-4 bg-green-400 text-white rounded-md p-3 text-center">
+              Registration successful! Please log in.
+            </div>
+          )
+        }
+
+        <form method="post" class="space-y-4" action="/api/auth/login">
+          <div class="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="m@example.com"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <a
+                href="/forgot-password"
+                class="text-sm text-blue-600 hover:underline"
+              >
+                Forgot password?
+              </a>
+            </div>
+            <Input id="password" name="password" type="password" required />
+          </div>
+          <Button type="submit" className="w-full bg-main hover:bg-main">
+            Sign In
+          </Button>
+        </form>
+      </CardContent>
+      <CardFooter className="flex flex-wrap items-center justify-between gap-2">
+        <div class="text-sm text-muted-foreground">
+          Don't have an account?
+          <a href="/register" class="ml-1 text-blue-600 hover:underline">
+            Sign up
+          </a>
+        </div>
+      </CardFooter>
+    </Card>
+  </main>
+</Layout>
+
+<script>
+  const registered = new URLSearchParams(window.location.search).get(
+    "registered"
+  );
+  const redirectOverlay = document.getElementById("redirect-overlay");
+
+  if (registered === "true" && redirectOverlay) {
+    setTimeout(() => {
+      redirectOverlay.classList.remove("translate-x-full");
+    }, 500);
+
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 3000);
+  }
+</script>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  #redirect-overlay {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  #redirect-overlay p {
+    animation: fadeInUp 0.5s ease-out 0.5s both;
+  }
+</style>

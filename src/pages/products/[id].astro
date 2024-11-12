@@ -20,6 +20,7 @@ const {
 } = Astro.props;
 
 const discountedPrice = price - (price * discountPercent) / 100;
+ export const prerender = true
 ---
 
 <MainLayout>

@@ -1,0 +1,82 @@
+---
+import Layout from "@/layouts/MainLayout.astro";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { MailCheck } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+
+const title = "Verify Your Email";
+const email = Astro.url.searchParams.get("email") || "your email address";
+
+let message = "";
+
+if (Astro.request.method === "POST") {
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email: email,
+  });
+
+  if (error) {
+    message = `Error: ${error.message}`;
+  } else {
+    message = "Verification email resent successfully!";
+  }
+}
+---
+
+<Layout title={title}>
+  <main class="flex items-center justify-center min-h-[80svh] py-8">
+    <Card className="w-full max-w-lg">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">
+          <MailCheck className="w-12 h-12 mx-auto mb-4 text-main" />
+          {title}
+        </CardTitle>
+        <CardDescription className="text-center">
+          We've sent a verification link to {email}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4 text-center">
+        <p>
+          Please check your inbox and click on the verification link to complete
+          your registration.
+        </p>
+        <p class="text-sm text-muted-foreground">
+          If you don't see the email, check your spam folder or try the button
+          below.
+        </p>
+        {
+          message && (
+            <p
+              class={
+                message.startsWith("Error") ? "text-red-500" : "text-green-500"
+              }
+            >
+              {message}
+            </p>
+          )
+        }
+      </CardContent>
+      <CardFooter className="flex flex-col space-y-4">
+        <form method="post" class="w-full">
+          <Button type="submit" className="w-full">
+            Resend Verification Email
+          </Button>
+        </form>
+        <p class="text-sm text-muted-foreground text-center">
+          Already verified? <a
+            href="/login"
+            class="text-blue-600 hover:underline font-medium">Sign in</a
+          >
+        </p>
+      </CardFooter>
+    </Card>
+  </main>
+</Layout>

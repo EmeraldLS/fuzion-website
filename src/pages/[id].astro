@@ -15,6 +15,8 @@ export function getStaticPaths() {
 const {
   category: { name, products },
 } = Astro.props;
+
+export const prerender = true;
 ---
 
 <MainLayout>
