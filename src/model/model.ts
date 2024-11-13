@@ -15,3 +15,8 @@ export interface ProductItem {
     coating: string;
   };
 }
+
+export interface ImageUploadResponse {
+  message: string;
+  filePath: string;
+}
