@@ -49,41 +49,6 @@ export const GET: APIRoute = async ({ request }) => {
   }
 };
 
-export const DELETE: APIRoute = async ({ request }) => {
-  const id = request.url.split("/").pop();
-
-  try {
-    const { error } = await supabase.from("products").delete().eq("id", id);
-
-    if (error) throw error;
-
-    return new Response(
-      JSON.stringify({
-        message: "Product deleted successfully",
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  } catch (error) {
-    console.error("Error deleting product:", error);
-    return new Response(
-      JSON.stringify({
-        error: "An error occurred while deleting the product",
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  }
-};
-
 export const POST: APIRoute = async ({ request }) => {
   const {
     id,

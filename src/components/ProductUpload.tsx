@@ -97,7 +97,7 @@ export default function ProductUploadForm() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/product/image", {
+      const response = await fetch("/api/private/image", {
         method: "POST",
         body: formData,
       });
@@ -143,7 +143,7 @@ export default function ProductUploadForm() {
 
       console.log(productData);
 
-      const response = await fetch("/api/product", {
+      const response = await fetch("/api/private/product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

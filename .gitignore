@@ -32,3 +32,5 @@ node_modules/
 .astro
 .vscode
 /dist
+
+uploads/*

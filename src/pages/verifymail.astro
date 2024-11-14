@@ -13,7 +13,7 @@ import { MailCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 const title = "Verify Your Email";
-const email = Astro.url.searchParams.get("email") || "your email address";
+const email = Astro.url.searchParams.get("email") as string;
 
 let message = "";
 

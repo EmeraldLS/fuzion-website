@@ -14,10 +14,10 @@ const pageTitle = "Admin Dashboard";
 ---
 
 <AdminLayout title={pageTitle}>
-  <div class="container mx-auto py-8">
+  <div class="container mx-auto py-8 overflow-y-hidden">
     <h1 class="text-3xl font-bold mb-8">Product Management</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <Card>
+      <Card className=" overflow-y-scroll">
         <CardHeader>
           <CardTitle>Upload New Product</CardTitle>
           <CardDescription>Add a new product to the catalog</CardDescription>
@@ -26,7 +26,7 @@ const pageTitle = "Admin Dashboard";
           <ProductUploadForm client:load />
         </CardContent>
       </Card>
-      <Card>
+      <Card className=" static">
         <CardHeader>
           <CardTitle>Product List</CardTitle>
           <CardDescription>Manage existing products</CardDescription>

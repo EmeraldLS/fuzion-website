@@ -10,16 +10,16 @@ export const POST: APIRoute = async ({
   cookies,
   clientAddress,
   url,
+  locals,
 }) => {
   const formData = await request.formData();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
 
-  const accessibleIPS = import.meta.env.AccessibleIPS.split(",") || [];
-  const userIP = clientAddress;
+  const isIpAllowed = locals.granted ?? false;
 
   if (micromatch.isMatch(url.pathname, protectedRoutes)) {
-    if (!accessibleIPS.includes(userIP)) {
+    if (!isIpAllowed) {
       return redirect("/404");
     }
   }

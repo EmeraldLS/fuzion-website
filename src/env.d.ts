@@ -13,6 +13,6 @@ interface ImportMeta {
 declare namespace App {
   interface Locals {
     email: string;
-    showIcon: boolean;
+    granted: boolean;
   }
 }

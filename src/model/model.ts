@@ -7,6 +7,7 @@ export interface ProductItem {
   rating: number;
   discountPercent: number;
   description: string;
+  category: string;
   specifications?: {
     size: string;
     motor: string;
@@ -14,6 +15,23 @@ export interface ProductItem {
     pump: string;
     coating: string;
   };
+}
+
+export interface ProductItemResponse {
+  id: string;
+  price: number;
+  is_new: boolean;
+  name: string;
+  image_url: string;
+  rating: number;
+  discount_percent: number;
+  category: string;
+  description: string;
+  size: string;
+  motor: string;
+  blade: string;
+  pump: string;
+  coating: string;
 }
 
 export interface ImageUploadResponse {

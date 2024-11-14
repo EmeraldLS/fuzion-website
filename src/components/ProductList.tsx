@@ -47,7 +47,7 @@ const ProductList: React.FC = () => {
     setError(null);
     try {
       const response = await fetch(
-        `/api/product?page=${currentPage}&limit=${ITEMS_PER_PAGE}`
+        `/api/private/product?page=${currentPage}&limit=${ITEMS_PER_PAGE}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch products");
@@ -80,7 +80,7 @@ const ProductList: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        const response = await fetch(`/api/product/${id}`, {
+        const response = await fetch(`/api/private/single/${id}`, {
           method: "DELETE",
         });
         if (!response.ok) {
@@ -112,7 +112,7 @@ const ProductList: React.FC = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="py-4 space-x-4 bg-white">
       <Table>
         <TableHeader>
           <TableRow>
@@ -142,7 +142,9 @@ const ProductList: React.FC = () => {
               ))
             : products.map((product) => (
                 <TableRow key={product.id}>
-                  <TableCell>{product.name}</TableCell>
+                  <TableCell>
+                    <a href={`/admin/${product.id}`}>{product.name}</a>
+                  </TableCell>
                   <TableCell>{formatCurrency(product.price)}</TableCell>
                   <TableCell>{product.is_new ? "Yes" : "No"}</TableCell>
                   <TableCell>
