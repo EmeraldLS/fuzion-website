@@ -4,23 +4,31 @@ import { productList } from "@/utils/mockData";
 import { formatCurrency } from "@/utils/utils";
 import { Image } from "astro:assets";
 import AddToCart from '@/components/AddToCart';
+import type { ProductItemResponse } from "@/model/model";
 
-export async function getStaticPaths() {
-  return productList.map((product) => {
-    return {
-      params: { id: product.id },
-      props: { product },
-    };
-  });
+let product: ProductItemResponse | null = null
+const { id } = Astro.params;
+
+let error = null;
+
+try {
+  const response = await fetch(
+    `${Astro.url.origin}/api/public/single/${id}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const data = await response.json();
+  product = data
+
+} catch (e) {
+  console.error("Error fetching products:", e);
+  error = "An error occurred while fetching products";
 }
 
-const { id } = Astro.params;
-const {
-  product: { price, image, discountPercent, name, description, specifications },
-} = Astro.props;
-
-const discountedPrice = price - (price * discountPercent) / 100;
- export const prerender = true
+const discountedPrice = product?.price
+  ? product.price - (product.price * (product.discount_percent || 0)) / 100
+  : null;
 ---
 
 <MainLayout>
@@ -32,24 +40,26 @@ const discountedPrice = price - (price * discountPercent) / 100;
         <div
           class="col-span-6 items-center flex max-h-[500px] w-full flex-col gap-4 lg:col-span-3 lg:flex-row"
         >
-          <Image src={image} alt={name} class="h-[400px] object-fill" />
+          <img src={`/${product?.image_url}`} alt={product?.name} class="h-[400px] object-fill" />
         </div>
         <div class="col-span-6 lg:col-span-3">
           <h1 class="text-2xl font-semibold text-default-600">
-            {name}
+            {product?.name}
           </h1>
           <div class="my-2 flex items-center gap-2">
             <span class="text-xl font-bold text-main">
               {
-                discountPercent > 0
-                  ? formatCurrency(discountedPrice)
-                  : formatCurrency(price)
+                product &&
+                product?.discount_percent > 0
+                  ? formatCurrency(discountedPrice!)
+                  : formatCurrency(product?.price!)
               }</span
             >
             {
-              discountPercent > 0 && (
-                <span class="line-through">{formatCurrency(price)}</span>
-                <span class="rounded-md bg-red-400 px-2 text-white">{`-${discountPercent}% off`}</span>
+              product &&
+              product?.discount_percent > 0 && (
+                <span class="line-through">{formatCurrency(product?.price)}</span>
+                <span class="rounded-md bg-red-400 px-2 text-white">{`-${product?.discount_percent}% off`}</span>
               )
             }
 
@@ -57,7 +67,7 @@ const discountedPrice = price - (price * discountPercent) / 100;
           </div>
           <div class="mb-5 border-b-2 pb-5 space-y-3">
             <p class="line-clamp-3">
-             {description}
+             {product?.description}
             </p>
             <h3 class="text-2xl font-semibold">Specifications</h3>
             <ul>
@@ -70,7 +80,7 @@ const discountedPrice = price - (price * discountPercent) / 100;
            </ul>
             
           </div>
-          <AddToCart client:load productId={id} price={discountedPrice} name={name} />
+          <AddToCart client:load productId={id!} price={discountedPrice!} name={product?.name!} />
           <div class="my-4">
             <span class="font-bold text-default-600">Share:</span>
             <div class="mt-2 flex items-center gap-2">

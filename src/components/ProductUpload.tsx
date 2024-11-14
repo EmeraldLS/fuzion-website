@@ -108,8 +108,6 @@ export default function ProductUploadForm() {
 
       const data = (await response.json()) as ImageUploadResponse;
 
-      console.log(data);
-
       return data.filePath;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -140,8 +138,6 @@ export default function ProductUploadForm() {
         category: formData.category,
         specifications: formData.specifications,
       };
-
-      console.log(productData);
 
       const response = await fetch("/api/private/product", {
         method: "POST",

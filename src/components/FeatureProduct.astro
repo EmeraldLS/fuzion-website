@@ -1,44 +1,52 @@
 ---
-import type { ProductItem } from "@/model/model";
+import type { ProductItem, ProductItemResponse } from "@/model/model";
 import { formatCurrency } from "@/utils/utils";
 import { Image } from "astro:assets";
 interface Props {
-  product: ProductItem;
+  product: ProductItemResponse;
 }
 
 const {
-  product: { image, name, id, rating, price, isNew, discountPercent },
+  product: {
+    image_url,
+    name,
+    rating,
+    price,
+    is_new,
+    discount_percent,
+    product_id,
+  },
 } = Astro.props;
 
-const discountedPrice = price - (price * discountPercent) / 100;
+const discountedPrice = price - (price * discount_percent) / 100;
 ---
 
 <div class="swiper-slide grid grid-cols-6 gap-5">
   <div class="relative col-span-6 flex rounded-lg bg-white p-4 shadow">
-    <a href={`/products/${id}`}>
+    <a href={`/products/${product_id}`}>
       <figure
         class="h-[80px] w-[80px] min-w-[80px] xl:h-[130px] xl:w-[130px] xl:min-w-[130px]"
       >
-        <Image src={image} alt={name} />
+        <img src={image_url} alt={name} />
       </figure>
     </a>
     <div class="relative border-l-2 pl-4">
       <div class="rater" data-rater="4"></div>
       <a
-        href={`/products/${id}`}
+        href={`/products/${product_id}`}
         class="my-3 line-clamp-2 text-default-600 transition-all duration-300 hover:text-main"
       >
         {name}
       </a>
       <span class="mb-2 inline-block text-base font-bold text-main">
         {
-          discountPercent > 0
+          discount_percent > 0
             ? formatCurrency(discountedPrice)
             : formatCurrency(price)
         }
       </span>
       {
-        discountPercent > 0 && (
+        discount_percent > 0 && (
           <span class="leading-6 text-default-400 line-through">
             {formatCurrency(price)}
           </span>
@@ -46,9 +54,9 @@ const discountedPrice = price - (price * discountPercent) / 100;
       }
     </div>
     {
-      discountPercent > 0 && (
+      discount_percent > 0 && (
         <span class="pointer-events-none absolute left-4 top-4 rounded-md bg-red-400 px-2 text-white">
-          {`-${discountPercent}%`}
+          {`-${discount_percent}%`}
         </span>
       )
     }

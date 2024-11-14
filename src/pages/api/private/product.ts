@@ -79,7 +79,6 @@ export const POST: APIRoute = async ({ request }) => {
     coating,
     category,
   };
-  console.log(datatoInsert);
   const { data, error } = await supabase
     .from("products")
     .insert(datatoInsert)

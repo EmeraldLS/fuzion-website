@@ -124,8 +124,6 @@ if (!isIpAllowed) {
       "text-green-700",
     ];
 
-    console.log(result.score);
-
     passwordStrength.textContent = `Password strength: ${strength[result.score]}`;
     passwordStrength.className = `text-sm ${color[result.score]}`;
   });

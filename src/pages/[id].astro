@@ -1,31 +1,50 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
 import CollectionItem from "@/components/CollectionItem.astro";
+import type { ProductItemResponse } from "@/model/model";
 import { categories } from "@/utils/mockData";
 
-export function getStaticPaths() {
-  return categories.map((category) => {
-    return {
-      params: { id: category.id },
-      props: { category },
-    };
-  });
+let products: ProductItemResponse[] = [];
+let error = null;
+
+const { id } = Astro.params;
+
+try {
+  const response = await fetch(
+    `${Astro.url.origin}/api/public/product?category=${id}&limit=100`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const data = await response.json();
+  products = data.products;
+} catch (e) {
+  console.error("Error fetching products:", e);
+  error = "An error occurred while fetching products";
 }
-
-const {
-  category: { name, products },
-} = Astro.props;
-
-export const prerender = true;
 ---
 
 <MainLayout>
   <div class="py-10 container ml-28">
+    <p class="text-center text-4xl pb-5 font-semibold">
+      {categories.find((cat) => cat.id == id)?.name}
+    </p>
+    {
+      products.length == 0 && (
+        <div class="justify-center items-center h-64">
+          <div class=" px-6 py-4 rounded-md shadow-md">
+            <h2 class="text-2xl font-bold mb-2">Oops, no products found!</h2>
+            <p class="text-lg">
+              It looks like there are no products in this category at the
+              moment. Why not check out our other collections?
+            </p>
+          </div>
+        </div>
+      )
+    }
+
     <div class="mb-6 grid grid-cols-8 gap-7">
       <div class="order-1 col-span-8 lg:order-2 lg:col-span-12">
-        <p class="text-center text-4xl pb-5 font-semibold">
-          {name}
-        </p>
         <div
           class="mix-container mix-shop grid grid-cols-8 gap-5"
           id="MixItUp9C3B89"

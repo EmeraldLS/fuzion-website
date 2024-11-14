@@ -3,23 +3,21 @@ import { supabase } from "@/lib/supabase";
 
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
-  const page = parseInt(url.searchParams.get("page") || "1");
   const limit = parseInt(url.searchParams.get("limit") || "10");
-  const category = url.searchParams.get("category") || null;
-  const offset = (page - 1) * limit;
+  const isNew = url.searchParams.get("is_new") === "true";
 
   try {
     const [{ count }, { data }] = await Promise.all([
       supabase
         .from("products")
         .select("id", { count: "exact", head: true })
-        .match(category ? { category } : {}),
+        .eq(isNew ? "is_new" : "", true),
       supabase
         .from("products")
         .select("*")
-        .match(category ? { category } : {})
+        .eq(isNew ? "is_new" : "", true)
         .order("created_at", { ascending: false })
-        .range(offset, offset + limit - 1),
+        .limit(limit),
     ]);
 
     if (!data) {

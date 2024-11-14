@@ -1,14 +1,45 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
-import ProductImg3 from "@/assets/products/FZ-103.jpeg";
 import Product from "@/components/Product.astro";
-import type { ProductItem } from "@/model/model";
+import type { ProductItemResponse } from "@/model/model";
 import FeatureProduct from "@/components/FeatureProduct.astro";
 import { Button } from "@/components/ui/button";
 import WhatWeDo from "@/components/what-we-do";
-import { productList, featuredProducts } from "@/utils/mockData";
 
-const newProducts = productList.slice(0, 4);
+let newProducts: ProductItemResponse[] = [];
+let error = null;
+
+const { id } = Astro.params;
+
+try {
+  const response = await fetch(
+    `${Astro.url.origin}/api/public/new-product?is_new=true&limit=8`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const data = await response.json();
+  newProducts = data.products;
+} catch (e) {
+  console.error("Error fetching products:", e);
+  error = "An error occurred while fetching products";
+}
+
+let featuredProducts: ProductItemResponse[] = [];
+
+try {
+  const response = await fetch(
+    `${Astro.url.origin}/api/public/new-product?&limit=8`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const data = await response.json();
+  featuredProducts = data.products;
+} catch (e) {
+  console.error("Error fetching products:", e);
+  error = "An error occurred while fetching products";
+}
 ---
 
 <MainLayout>
@@ -226,7 +257,7 @@ const newProducts = productList.slice(0, 4);
         </div>
       </div>
       <div class="swiper-wrapper">
-        {newProducts?.map((item) => item.isNew && <Product product={item} />)}
+        {newProducts?.map((item) => item.is_new && <Product product={item} />)}
       </div>
     </div>
   </section>

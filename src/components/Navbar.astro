@@ -20,7 +20,7 @@ const accessibleIPS = import.meta.env.AccessibleIPS.split(",");
 const userIP =
   Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
 
-const accessible = accessibleIPS.includes(userIP); // Use the IP check result passed in locals
+const accessible = accessibleIPS.includes(userIP);
 
 let accountRoute = "/login";
 if (accessToken && refreshToken) {
@@ -52,5 +52,68 @@ if (accessToken && refreshToken) {
         }
       </div>
     </div>
+    <nav class="nav-main hidden items-center border-t-2 lg:flex">
+      <div
+        class="relative mr-5 flex items-center pr-5 font-semibold after:absolute after:right-0 after:my-auto after:h-6 after:w-px after:bg-slate-300 after:content-['']"
+      >
+        <ul class="metismenu">
+          <li>
+            <div
+              class="sub-metismenu has-arrow flex cursor-pointer select-none items-center"
+            >
+              <svg
+                class="mr-4 h-6 w-6"
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 16 16"
+                height="200px"
+                width="200px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+                ></path>
+              </svg>
+              <span class="mr-8 py-3 font-semibold">
+                Browser All Category
+              </span>
+            </div>
+            <ul
+              class="metismenu-content z-[5] w-full rounded bg-[#f5f7fe] shadow-[0_2px_10px_rgba(131,125,125,.12)]"
+              style="position: absolute"
+            >
+              {
+                categories.map((cat) => (
+                  <li>
+                    <a
+                      class="block px-6 py-2 transition-all duration-300 hover:text-main"
+                      href={`/${cat.id}`}
+                    >
+                      {cat.name}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <ul class="flex gap-10 font-semibold">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                class={`${location.pathname == item.path && "active"} relative block py-3 transition-all duration-300 after:absolute after:-bottom-[5px] after:-top-[2px] after:left-0 after:h-[2px] after:w-0 after:bg-main after:transition-all after:duration-300 after:content-[''] hover:text-main hover:after:w-full`}
+                href={`${item.path}`}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
   </div>
 </header>

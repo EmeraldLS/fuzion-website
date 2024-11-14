@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import { formatCurrency } from "@/utils/utils";
-import type { ProductItem } from "@/model/model";
+import type { ProductItemResponse } from "@/model/model";
 interface Props {
-  product: ProductItem;
+  product: ProductItemResponse;
 }
 
 const {
-  product: { name, image, price, isNew, id, rating },
+  product: { name, image_url, price, is_new, rating, product_id },
 } = Astro.props;
 ---
 
@@ -15,14 +15,14 @@ const {
   <div
     class="relative flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg hover:shadow-xl"
   >
-    <a href={`/products/${id}`} class="block h-[270px]">
-      <Image src={image} alt={name} class="h-full w-full object-contain" />
+    <a href={`/products/${product_id}`} class="block h-[270px]">
+      <img src={image_url} alt={name} class="h-full w-full object-contain" />
     </a>
     <div class="mt-2 px-5">
       <div class="border-t border-slate-300">
         <div class="rater my-2" data-rater="5"></div>
         <a
-          href={`/products/${id}`}
+          href={`/products/${product_id}`}
           class="my-2 line-clamp-2 text-default-600 transition-all duration-300 hover:text-main"
         >
           {name}
@@ -33,13 +33,13 @@ const {
       </div>
     </div>
     <a
-      href={`/products/${id}`}
+      href={`/products/${product_id}`}
       class="mx-5 mb-5 mt-auto w-fit rounded-md bg-main px-3 py-2 uppercase text-white transition-all duration-300 hover:bg-main"
     >
       View details
     </a>
     {
-      isNew && (
+      is_new && (
         <span class="pointer-events-none absolute left-4 top-4 rounded-md bg-main px-2 text-white">
           New
         </span>

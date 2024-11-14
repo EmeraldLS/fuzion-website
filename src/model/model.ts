@@ -18,7 +18,8 @@ export interface ProductItem {
 }
 
 export interface ProductItemResponse {
-  id: string;
+  id: number;
+  product_id: string;
   price: number;
   is_new: boolean;
   name: string;

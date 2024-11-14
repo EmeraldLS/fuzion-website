@@ -177,8 +177,6 @@ const { id } = Astro.params;
       { label: "Coating", value: product.coating },
     ];
 
-    console.log(specifications);
-
     specifications.forEach((spec) => {
       if (spec.value) {
         const li = document.createElement("li");
