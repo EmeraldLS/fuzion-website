@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AUTHORIZED_IPS } from "astro:env/server";
+import { checkIPAuthorized } from "@/utils/utils";
 
 const title = "Login to Your Account";
 let error = Astro.url.searchParams.get("error");
@@ -19,9 +19,7 @@ let error = Astro.url.searchParams.get("error");
 const userIp =
   Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
 
-const authIps = AUTHORIZED_IPS.split(",");
-
-const isIpAllowed = authIps.includes(userIp);
+const isIpAllowed = checkIPAuthorized(userIp);
 
 if (!isIpAllowed) {
   error = "Access denied. Contact Admin!";

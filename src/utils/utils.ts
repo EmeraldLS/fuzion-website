@@ -1,3 +1,7 @@
+import type { boolean } from "astro:schema";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export const formatCurrency = (value: number) => {
   return value.toLocaleString("en-US", {
     style: "currency",
@@ -65,3 +69,17 @@ export const checkIPAuthentication = async (
   }
   return false;
 };
+
+const getAuthorizedIps = (): string[] => {
+  return process.env.AUTHORIZED_IPS?.split(",") || [];
+}
+
+export const checkIPAuthorized = (userIP: string): boolean => {
+  const authIps = getAuthorizedIps();
+  if (authIps.includes("0.0.0.0")) {
+    return true;
+  }
+
+  return authIps.includes(userIP);
+
+}

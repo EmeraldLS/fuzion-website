@@ -2,190 +2,121 @@
 import AdminLayout from "@/layouts/AdminLayout.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { Star } from "lucide-react";
+import { formatCurrency } from "@/utils/utils";
+import type { ProductItemResponse } from "@/model/model";
 
 const { id } = Astro.params;
----
 
-<AdminLayout title="Product">
-  <main class="container mx-auto px-4 py-8">
-    <div id="product-container" class="min-h-[400px]">
-      <div
-        id="loading-state"
-        class="flex flex-col items-center justify-center space-y-4"
-      >
-        <div
-          class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"
-        >
-        </div>
-        <p class="text-gray-600">Loading product details...</p>
-      </div>
+// Move the fetch to server-side
+let product: ProductItemResponse | null = null;
+let error: string | null = null;
 
-      <div
-        id="error-state"
-        class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-6"
-        role="alert"
-      >
-        <strong class="font-bold">Error: </strong>
-        <span class="block sm:inline" id="error-message"></span>
-      </div>
-
-      <div
-        id="product-details"
-        class="hidden bg-white rounded-lg shadow-lg overflow-hidden"
-      >
-        <div class="p-6 grid md:grid-cols-2">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                <span id="product-name"></span>
-                <span
-                  id="new-badge"
-                  class="hidden ml-2 px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full"
-                >
-                  New
-                </span>
-              </h1>
-            </div>
-
-            <div class="mb-6">
-              <img
-                id="product-image"
-                src=""
-                alt="Product Image"
-                class="max-h-96 object-cover rounded-lg shadow-md"
-              />
-            </div>
-          </div>
-
-          <div class="flex flex-col justify-center">
-            <div class="flex space-x-4 mb-6">
-              <span id="product-price" class="text-2xl font-bold text-gray-900"
-              ></span>
-              <span
-                id="discount-badge"
-                class="hidden px-2 py-1 bg-red-100 text-red-800 rounded-full text-sm"
-              ></span>
-            </div>
-
-            <div class="mb-6">
-              <h2 class="text-xl font-semibold mb-2">Description</h2>
-              <p id="product-description" class="text-gray-700"></p>
-            </div>
-
-            <div>
-              <h2 class="text-xl font-semibold mb-2">Specifications</h2>
-              <ul
-                id="specifications-list"
-                class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2"
-              >
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</AdminLayout>
-
-<script>
-  import type { ProductItemResponse } from "@/model/model";
-  import { formatCurrency } from "@/utils/utils";
-
-  const productId = window.location.pathname.split("/").pop() as string;
-  const loadingState = document.getElementById(
-    "loading-state"
-  ) as HTMLDivElement;
-  const errorState = document.getElementById("error-state") as HTMLDivElement;
-  const errorMessage = document.getElementById(
-    "error-message"
-  ) as HTMLSpanElement;
-  const productDetails = document.getElementById(
-    "product-details"
-  ) as HTMLDivElement;
-
-  async function fetchProduct() {
-    try {
-      const response = await fetch(`/api/private/single/${productId}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const product = await response.json();
-      displayProduct(product);
-    } catch (error) {
-      if (error instanceof TypeError) {
-        showError("An error occurred while fetching the product");
-      } else {
-        showError("An error occurred while fetching the product");
-      }
-    }
+try {
+  const response = await fetch(`${Astro.url.origin}/api/private/single/${id}`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
+  product = await response.json();
+} catch (err) {
+  error = "An error occurred while fetching the product";
+}
 
-  function showError(message: string) {
-    loadingState.classList.add("hidden");
-    errorState.classList.remove("hidden");
-    errorMessage.textContent = message;
-  }
-
-  function displayProduct(product: ProductItemResponse) {
-    loadingState.classList.add("hidden");
-    productDetails.classList.remove("hidden");
-
-    // Set product name
-    const productName = document.getElementById(
-      "product-name"
-    ) as HTMLHeadingElement;
-    productName.textContent = product.name;
-
-    // Display "New" badge if applicable
-    if (product.is_new) {
-      (document.getElementById("new-badge") as HTMLDivElement).classList.remove(
-        "hidden"
-      );
-    }
-
-    const productImage = document.getElementById(
-      "product-image"
-    ) as HTMLImageElement;
-    productImage.src = `/${product.image_url}`;
-    productImage.alt = `${product.name} image`;
-
-    const productPrice = document.getElementById(
-      "product-price"
-    ) as HTMLSpanElement;
-    productPrice.textContent = `${formatCurrency(product.price)}`;
-    if (product.discount_percent > 0) {
-      const discountBadge = document.getElementById(
-        "discount-badge"
-      ) as HTMLSpanElement;
-      discountBadge.textContent = `${product.discount_percent}% off`;
-      discountBadge.classList.remove("hidden");
-    }
-
-    (
-      document.getElementById("product-description") as HTMLDivElement
-    ).textContent = product.description;
-
-    const specificationsList = document.getElementById(
-      "specifications-list"
-    ) as HTMLUListElement;
-    specificationsList.innerHTML = "";
-    const specifications = [
+// Prepare specifications if product exists
+const specifications = product
+  ? [
       { label: "Size", value: product.size },
       { label: "Motor", value: product.motor },
       { label: "Blade", value: product.blade },
       { label: "Pump", value: product.pump },
       { label: "Coating", value: product.coating },
-    ];
+    ].filter((spec) => spec.value)
+  : [];
+---
 
-    specifications.forEach((spec) => {
-      if (spec.value) {
-        const li = document.createElement("li");
-        li.textContent = `${spec.label}: ${spec.value}`;
-        specificationsList.appendChild(li);
+<AdminLayout title="Product">
+  <main class="container mx-auto px-4 py-8">
+    <div class="min-h-[400px]">
+      {/* Show error state if there's an error */}
+      {
+        error && (
+          <div
+            class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-6"
+            role="alert"
+          >
+            <strong class="font-bold">Error: </strong>
+            <span class="block sm:inline">{error}</span>
+          </div>
+        )
       }
-    });
-  }
 
-  // Start fetching product data when the page loads
-  fetchProduct();
-</script>
+      {/* Show loading state if no product and no error */}
+      {
+        !product && !error && (
+          <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+            <p class="text-gray-600">Loading product details...</p>
+          </div>
+        )
+      }
+
+      {/* Show product details if product exists */}
+      {
+        product && (
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6 grid md:grid-cols-2">
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                    <span>{product.name}</span>
+                    {product.is_new && (
+                      <span class="ml-2 px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">
+                        New
+                      </span>
+                    )}
+                  </h1>
+                </div>
+
+                <div class="mb-6">
+                  <img
+                    src={`/${product.image_url}`}
+                    alt={`${product.name} image`}
+                    class="max-h-96 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-center">
+                <div class="flex space-x-4 mb-6">
+                  <span class="text-2xl font-bold text-gray-900">
+                    {formatCurrency(product.price)}
+                  </span>
+                  {product.discount_percent > 0 && (
+                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                      {product.discount_percent}% off
+                    </span>
+                  )}
+                </div>
+
+                <div class="mb-6">
+                  <h2 class="text-xl font-semibold mb-2">Description</h2>
+                  <p class="text-gray-700">{product.description}</p>
+                </div>
+
+                <div>
+                  <h2 class="text-xl font-semibold mb-2">Specifications</h2>
+                  <ul class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
+                    {specifications.map((spec) => (
+                      <li>
+                        {spec.label}: {spec.value}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </main>
+</AdminLayout>

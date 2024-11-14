@@ -2,7 +2,7 @@
 import { categories } from "@/utils/mockData";
 import DynamicCartIcon from "@/components/DynamicCartIcon";
 import { User2Icon } from "lucide-react";
-import { AUTHORIZED_IPS } from "astro:env/server";
+import { checkIPAuthorized } from "@/utils/utils";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -17,11 +17,10 @@ const location = Astro.url;
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
 
-let authIps = AUTHORIZED_IPS.split(",");
 const userIP =
   Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
 
-const accessible = authIps.includes(userIP);
+const accessible = checkIPAuthorized(userIP);
 
 let accountRoute = "/login";
 if (accessToken && refreshToken) {

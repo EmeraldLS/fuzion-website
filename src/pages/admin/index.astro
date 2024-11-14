@@ -1,7 +1,7 @@
 ---
 import AdminLayout from "@/layouts/AdminLayout.astro";
 import ProductUploadForm from "@/components/ProductUpload";
-import ProductList from "@/components/ProductList";
+import ProductList from "@/components/ProductList.astro";
 import {
   Card,
   CardContent,
@@ -32,7 +32,7 @@ const pageTitle = "Admin Dashboard";
           <CardDescription>Manage existing products</CardDescription>
         </CardHeader>
         <CardContent>
-          <ProductList client:only />
+          <ProductList />
         </CardContent>
       </Card>
     </div>
