@@ -1,17 +1,18 @@
 import { supabase } from "@/lib/supabase";
 import { defineMiddleware } from "astro:middleware";
 import micromatch from "micromatch";
+import { AUTHORIZED_IPS } from "astro:env/server";
 
 const protectedRoutes = ["/admin(|/)", "/api/product(|/)"];
 const redirectRoutes = ["/login(|/)", "/register(|/)"];
 
 export const onRequest = defineMiddleware(
   async ({ locals, url, cookies, redirect, request, clientAddress }, next) => {
-    const accessibleIPS = import.meta.env.AccessibleIPS.split(",") || [];
+    const authIps = AUTHORIZED_IPS.split(",") || [];
     const userIP = clientAddress;
 
     if (micromatch.isMatch(url.pathname, protectedRoutes)) {
-      if (!accessibleIPS.includes(userIP)) {
+      if (!authIps.includes(userIP)) {
         return redirect("/404");
       }
     }

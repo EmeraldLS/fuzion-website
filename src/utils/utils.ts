@@ -14,10 +14,10 @@ export const formatDate = (date: string) => {
 };
 
 export const checkIPAuthentication = async (
-  accessibleIPs: string[],
+  AUTHORIZED_IPS: string[],
   userIP: string
 ) => {
-  if (accessibleIPs.includes("0.0.0.0")) {
+  if (AUTHORIZED_IPS.includes("0.0.0.0")) {
     return true;
   }
 
@@ -51,7 +51,7 @@ export const checkIPAuthentication = async (
 
   const userLocation = await getGeolocation(userIP);
 
-  for (const ip of accessibleIPs) {
+  for (const ip of AUTHORIZED_IPS) {
     const location = await getGeolocation(ip);
     const distance = calculateDistance(
       userLocation.latitude,

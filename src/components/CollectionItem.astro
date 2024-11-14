@@ -26,7 +26,11 @@ const discountedPrice = price - (price * discount_percent) / 100;
     class="relative flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg hover:shadow-xl"
   >
     <a href={`/products/${product_id}`} class="block h-[270px]">
-      <img src={image_url} alt={name} class="h-full w-full object-contain" />
+      <img
+        src={`/${image_url}`}
+        alt={name}
+        class="h-full w-full object-contain"
+      />
     </a>
     <div class="mt-2 px-5">
       <div class="border-t border-slate-300">

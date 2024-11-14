@@ -2,6 +2,7 @@
 import { categories } from "@/utils/mockData";
 import DynamicCartIcon from "@/components/DynamicCartIcon";
 import { User2Icon } from "lucide-react";
+import { AUTHORIZED_IPS } from "astro:env/server";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -16,11 +17,11 @@ const location = Astro.url;
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
 
-const accessibleIPS = import.meta.env.AccessibleIPS.split(",");
+let authIps = AUTHORIZED_IPS.split(",");
 const userIP =
   Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
 
-const accessible = accessibleIPS.includes(userIP);
+const accessible = authIps.includes(userIP);
 
 let accountRoute = "/login";
 if (accessToken && refreshToken) {
@@ -89,7 +90,7 @@ if (accessToken && refreshToken) {
                   <li>
                     <a
                       class="block px-6 py-2 transition-all duration-300 hover:text-main"
-                      href={`/${cat.id}`}
+                      href={`/category/${cat.id}`}
                     >
                       {cat.name}
                     </a>

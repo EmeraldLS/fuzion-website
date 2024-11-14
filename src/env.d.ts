@@ -3,7 +3,7 @@
 interface ImportMetaEnv {
   readonly SUPABASE_URL: string;
   readonly SUPABASE_ANON_KEY: string;
-  readonly AccessibleIPS: string;
+  readonly AUTHORIZED_IPS: string;
 }
 
 interface ImportMeta {
