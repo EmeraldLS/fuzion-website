@@ -43,7 +43,7 @@ if (accessToken && refreshToken) {
         </a>
       </div>
     </div>
-    <nav class="nav-main hidden items-center border-t-2 lg:flex">
+    <nav class="nav-main items-center border-t-2 lg:flex">
       <div
         class="relative mr-5 flex items-center pr-5 font-semibold after:absolute after:right-0 after:my-auto after:h-6 after:w-px after:bg-slate-300 after:content-['']"
       >
@@ -96,7 +96,7 @@ if (accessToken && refreshToken) {
           navItems.map((item) => (
             <li>
               <a
-                class={`${location.pathname == item.path && "active"} relative block py-3 transition-all duration-300 after:absolute after:-bottom-[5px] after:-top-[2px] after:left-0 after:h-[2px] after:w-0 after:bg-main after:transition-all after:duration-300 after:content-[''] hover:text-main hover:after:w-full`}
+                class={`${location.pathname == item.path && "active"} text-sm sm:text-base relative block py-3 transition-all duration-300 after:absolute after:-bottom-[5px] after:-top-[2px] after:left-0 after:h-[2px] after:w-0 after:bg-main after:transition-all after:duration-300 after:content-[''] hover:text-main hover:after:w-full`}
                 href={`${item.path}`}
               >
                 {item.name}
