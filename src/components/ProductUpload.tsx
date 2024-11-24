@@ -151,10 +151,12 @@ export default function ProductUploadForm() {
         throw new Error("Failed to upload product");
       }
 
-      setMessage("Your product has been successfully added to the catalog. Please reload");
+      setMessage(
+        "Your product has been successfully added to the catalog. Please reload"
+      );
       setMessageType("success");
 
-      window.location.reload()
+      window.location.reload();
 
       window.dispatchEvent(new Event("productUploaded"));
 
@@ -178,8 +180,8 @@ export default function ProductUploadForm() {
 
       window.scrollTo({
         top: 0,
-        behavior: "smooth"
-      })
+        behavior: "smooth",
+      });
     } catch (error) {
       console.error("Error uploading product:", error);
       setMessage("Failed to upload product. Please try again.");

@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
-import fs from "fs/promises";
-import path from "path";
+import { supabaseAdmin } from "@/lib/supabase";
+
+const BUCKET_NAME = "uploads";
 
 export const DELETE: APIRoute = async ({ params }) => {
   try {
@@ -10,27 +11,43 @@ export const DELETE: APIRoute = async ({ params }) => {
       return new Response("Filename is required", { status: 400 });
     }
 
-    if (filename.includes("..") || filename.includes("/")) {
+    if (filename.includes("..") || filename.startsWith("/")) {
       return new Response("Invalid filename", { status: 400 });
     }
 
-    const uploadsDir = path.join(process.cwd(), "uploads");
-    const filePath = path.join(uploadsDir, filename);
+    const { data: fileExists } = await supabaseAdmin.storage
+      .from(BUCKET_NAME)
+      .list("images", {
+        limit: 1,
+        search: filename,
+      });
 
-    try {
-      await fs.access(filePath, fs.constants.F_OK);
-    } catch {
+    if (!fileExists || fileExists.length === 0) {
       return new Response("File not found", { status: 404 });
     }
 
-    await fs.unlink(filePath).catch((error) => {
+    const { error } = await supabaseAdmin.storage
+      .from(BUCKET_NAME)
+      .remove([filename]);
+
+    if (error) {
       console.error("Error deleting file:", error);
-      throw error;
-    });
+      return new Response(JSON.stringify({ error: "Failed to delete file" }), {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
 
     return new Response(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting file:", error);
-    return new Response("Internal server error", { status: 500 });
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 };

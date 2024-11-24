@@ -7,7 +7,6 @@ import type { ProductItemResponse } from "@/model/model";
 
 const { id } = Astro.params;
 
-// Move the fetch to server-side
 let product: ProductItemResponse | null = null;
 let error: string | null = null;
 
@@ -21,7 +20,6 @@ try {
   error = "An error occurred while fetching the product";
 }
 
-// Prepare specifications if product exists
 const specifications = product
   ? [
       { label: "Size", value: product.size },
@@ -36,7 +34,6 @@ const specifications = product
 <AdminLayout title="Product">
   <main class="container mx-auto px-4 py-8">
     <div class="min-h-[400px]">
-      {/* Show error state if there's an error */}
       {
         error && (
           <div
@@ -49,7 +46,6 @@ const specifications = product
         )
       }
 
-      {/* Show loading state if no product and no error */}
       {
         !product && !error && (
           <div class="flex flex-col items-center justify-center space-y-4">
@@ -59,7 +55,6 @@ const specifications = product
         )
       }
 
-      {/* Show product details if product exists */}
       {
         product && (
           <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -78,7 +73,7 @@ const specifications = product
 
                 <div class="mb-6">
                   <img
-                    src={`/${product.image_url}`}
+                    src={`${product.image_url}`}
                     alt={`${product.name} image`}
                     class="max-h-96 object-cover rounded-lg shadow-md"
                   />

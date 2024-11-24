@@ -2,7 +2,6 @@
 import { categories } from "@/utils/mockData";
 import DynamicCartIcon from "@/components/DynamicCartIcon";
 import { User2Icon } from "lucide-react";
-import { checkIPAuthorized } from "@/utils/utils";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -16,11 +15,6 @@ const location = Astro.url;
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
-
-const userIP =
-  Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
-
-const accessible = checkIPAuthorized(userIP);
 
 let accountRoute = "/login";
 if (accessToken && refreshToken) {
@@ -40,16 +34,13 @@ if (accessToken && refreshToken) {
       </a>
       <div class="flex items-center gap-5">
         <DynamicCartIcon client:load />
-        {
-          accessible && (
-            <a
-              href={accountRoute}
-              title={accountRoute == "/login" ? "Login" : "Go to your profile"}
-            >
-              <User2Icon />
-            </a>
-          )
-        }
+
+        <a
+          href={accountRoute}
+          title={accountRoute == "/login" ? "Login" : "Go to your profile"}
+        >
+          <User2Icon />
+        </a>
       </div>
     </div>
     <nav class="nav-main hidden items-center border-t-2 lg:flex">

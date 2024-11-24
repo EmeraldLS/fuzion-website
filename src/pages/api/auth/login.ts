@@ -16,14 +16,6 @@ export const POST: APIRoute = async ({
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
 
-  const isIpAllowed = locals.granted ?? false;
-
-  if (micromatch.isMatch(url.pathname, protectedRoutes)) {
-    if (!isIpAllowed) {
-      return redirect("/404");
-    }
-  }
-
   if (!email || !password) {
     return redirect(`/login?error=Email and password are required`);
   }

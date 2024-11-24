@@ -1,0 +1,12 @@
+# I should've used docker swarm or secrets instead, but im too lazy to do that.
+
+build:
+	@docker build --build-arg SUPABASE_URL=asdf --build-arg SUPABASE_ANON_KEY=asdf --build-arg SUPABASE_SERVICE_ROLE_KEY=asdf -t fuzion-website .
+
+run:
+	@docker run -p 4321:4321 fuzion-website
+
+deploy:
+	@docker build --build-arg SUPABASE_URL=asdf --build-arg SUPABASE_ANON_KEY=asdf --build-arg SUPABASE_SERVICE_ROLE_KEY=asdf -t ghcr.io/username/fuzion-website .
+
+	@docker push ghcr.io/username/fuzion-website

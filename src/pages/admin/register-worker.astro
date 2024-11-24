@@ -1,0 +1,83 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { registerWorker } from "@/utils/auth";
+
+let error = null;
+if (Astro.request.method === "POST") {
+  try {
+    const formData = await Astro.request.formData();
+    const fname = formData.get("fname") as string;
+    const lname = formData.get("lname") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    await registerWorker(fname, lname, email, password);
+    return Astro.redirect("/admin/workers");
+  } catch (error) {
+    error = "An error occurred while registering the worker";
+    console.error("Failed to register worker:", error);
+  }
+}
+---
+
+<AdminLayout title="register workers">
+  <main class="flex items-center justify-center min-h-[80svh] py-8">
+    <Card className="w-full max-w-lg">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center"
+          >Create a new worker account</CardTitle
+        >
+        <CardDescription className="text-center">
+          Enter your information to create an account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {
+          error && (
+            <div class="mb-4 bg-red-400 text-white rounded-md p-3 text-center ">
+              {error}
+            </div>
+          )
+        }
+        <form method="post" id="register-form" class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <Label htmlFor="fname">First name</Label>
+              <Input id="fname" name="fname" required />
+            </div>
+            <div class="space-y-2">
+              <Label htmlFor="lname">Last name</Label>
+              <Input id="lname" name="lname" required />
+            </div>
+          </div>
+          <div class="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" required />
+          </div>
+          <div class="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" name="password" type="password" required />
+            <div id="password-strength" class="text-sm"></div>
+          </div>
+          <Button
+            type="submit"
+            id="sBtn"
+            className="w-full bg-main hover:bg-main"
+          >
+            Create account
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  </main>
+</AdminLayout>

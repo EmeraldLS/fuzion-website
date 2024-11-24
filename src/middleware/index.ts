@@ -1,21 +1,13 @@
 import { supabase } from "@/lib/supabase";
-import { checkIPAuthorized } from "@/utils/utils";
 import { defineMiddleware } from "astro:middleware";
 import micromatch from "micromatch";
+import { getCurrentUser } from "@/utils/auth";
 
 const protectedRoutes = ["/admin(|/)", "/api/product(|/)"];
 const redirectRoutes = ["/login(|/)", "/register(|/)"];
 
 export const onRequest = defineMiddleware(
-  async ({ locals, url, cookies, redirect, request, clientAddress }, next) => {
-    const userIP = clientAddress;
-
-    if (micromatch.isMatch(url.pathname, protectedRoutes)) {
-      if (!checkIPAuthorized(userIP)) {
-        return redirect("/404");
-      }
-    }
-
+  async ({ locals, url, cookies, redirect, request }, next) => {
     if (micromatch.isMatch(url.pathname, protectedRoutes)) {
       const accessToken = cookies.get("sb-access-token");
       const refreshToken = cookies.get("sb-refresh-token");
@@ -39,7 +31,6 @@ export const onRequest = defineMiddleware(
         return redirect("/login");
       }
 
-      locals.email = data.user?.email!;
       cookies.set("sb-access-token", data?.session?.access_token!, {
         sameSite: "strict",
         path: "/",
@@ -50,6 +41,14 @@ export const onRequest = defineMiddleware(
         path: "/",
         secure: true,
       });
+    }
+
+    const user = await getCurrentUser();
+
+    if (request.url.startsWith("/admin")) {
+      if (!user || user.role !== "admin") {
+        return redirect("/login");
+      }
     }
 
     if (micromatch.isMatch(url.pathname, redirectRoutes)) {

@@ -187,22 +187,28 @@ const paginationLinks = Array.from({ length: totalPages }, (_, i) => i + 1);
         throw new Error("Failed to delete product");
       }
 
-      if (imageURL && imageURL.includes("uploads/")) {
+      if (imageURL && imageURL.includes("supabase.co")) {
         const filename = imageURL.split("/").pop();
-        console.log(filename);
-        if (filename) {
-          const imageDeleteResponse = await fetch(
-            `/api/private/image/${filename}`,
-            {
-              method: "DELETE",
-            }
-          );
+        console.log("Filename to delete:", filename);
 
-          if (!imageDeleteResponse.ok) {
-            console.error(
-              "Failed to delete image file, but product was deleted"
+        if (filename) {
+          try {
+            const imageDeleteResponse = await fetch(
+              `/api/private/image/${filename}`,
+              {
+                method: "DELETE",
+              }
             );
-            return;
+
+            if (!imageDeleteResponse.ok) {
+              throw new Error(
+                `Failed to delete image: ${imageDeleteResponse.statusText}`
+              );
+            }
+
+            console.log("Image deleted successfully:", filename);
+          } catch (error) {
+            console.error("Error deleting image:", error);
           }
         }
       }

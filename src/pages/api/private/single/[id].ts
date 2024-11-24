@@ -101,7 +101,9 @@ export const PUT: APIRoute = async ({ params, request }) => {
       if (missingSpecs.length > 0) {
         return new Response(
           JSON.stringify({
-            error: `Missing required specifications: ${missingSpecs.join(", ")}`,
+            error: `Missing required specifications: ${missingSpecs.join(
+              ", "
+            )}`,
           }),
           {
             status: 400,

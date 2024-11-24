@@ -7,23 +7,12 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { checkIPAuthorized } from "@/utils/utils";
 
 const title = "Login to Your Account";
 let error = Astro.url.searchParams.get("error");
-
-const userIp =
-  Astro.request.headers.get("x-forwarded-for") || Astro.clientAddress;
-
-const isIpAllowed = checkIPAuthorized(userIp);
-
-if (!isIpAllowed) {
-  error = "Access denied. Contact Admin!";
-}
 
 const registered = Astro.url.searchParams.get("registered");
 ---
@@ -90,14 +79,6 @@ const registered = Astro.url.searchParams.get("registered");
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-wrap items-center justify-between gap-2">
-        <div class="text-sm text-muted-foreground">
-          Don't have an account?
-          <a href="/register" class="ml-1 text-blue-600 hover:underline">
-            Sign up
-          </a>
-        </div>
-      </CardFooter>
     </Card>
   </main>
 </Layout>

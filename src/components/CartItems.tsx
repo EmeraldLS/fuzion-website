@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MinusCircle, PlusCircle, Trash2, ShoppingCart } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import emailjs from "@emailjs/browser";
 import { Label } from "@/components/ui/label";
