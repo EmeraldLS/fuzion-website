@@ -14,6 +14,7 @@ import {
 import { Loader2, AlertCircle } from "lucide-react";
 import { categories } from "@/utils/mockData";
 import { Label } from "./ui/label";
+import { Switch } from "./ui/switch";
 
 interface ProductFormData {
   name: string;
@@ -21,6 +22,7 @@ interface ProductFormData {
   discount_percent: number;
   description: string;
   category: string;
+  isNew: boolean;
   specifications: {
     size: string;
     motor: string;
@@ -40,6 +42,7 @@ export default function ProductUpdateForm({
   const [formData, setFormData] = useState<ProductFormData>({
     name: "",
     price: 0,
+    isNew: false,
     discount_percent: 0,
     description: "",
     category: "",
@@ -70,6 +73,7 @@ export default function ProductUpdateForm({
       const product = await response.json();
       const newProduct = {
         ...product,
+        isNew: product.is_new,
         specifications: {
           size: product.size,
           motor: product.motor,
@@ -78,6 +82,7 @@ export default function ProductUpdateForm({
           coating: product.coating,
         },
       };
+
       setFormData(newProduct);
     } catch (error) {
       setError("An error occurred while loading the product details");
@@ -85,6 +90,10 @@ export default function ProductUpdateForm({
       setLoading(false);
     }
   }, [productId]);
+
+  const handleSwitchChange = (checked: boolean) => {
+    setFormData((prev) => ({ ...prev, isNew: checked }));
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -198,6 +207,15 @@ export default function ProductUpdateForm({
           onChange={handleInputChange}
           required
         />
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="isNew"
+          checked={formData.isNew}
+          onCheckedChange={handleSwitchChange}
+        />
+        <Label htmlFor="isNew">New Product</Label>
       </div>
 
       <div>

@@ -3,6 +3,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm install -g npm@10.9.1
 RUN npm install
 RUN npm run build
 

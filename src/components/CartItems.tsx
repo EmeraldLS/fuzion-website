@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { MinusCircle, PlusCircle, Trash2, ShoppingCart } from "lucide-react";
+import {
+  MinusCircle,
+  PlusCircle,
+  Trash2,
+  ShoppingCart,
+  Loader2,
+} from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import emailjs from "@emailjs/browser";
@@ -104,10 +110,14 @@ export default function CartItems() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const tax = subtotal * 0.1;
+  const taxPercent = 0.18;
+  const tax = subtotal * taxPercent;
   const total = subtotal + tax;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleCheckout = async () => {
+    setIsLoading(true);
     try {
       const itemsListHTML = cart
         .map(
@@ -120,6 +130,11 @@ export default function CartItems() {
       `
         )
         .join("");
+
+      if (!credentials.email || !credentials.name) {
+        alert("Fill empty fields");
+        return;
+      }
 
       const templateParams = {
         orderId: `ORD-${Date.now().toString().slice(-6)}`,
@@ -148,6 +163,8 @@ export default function CartItems() {
     } catch (error) {
       setMessage("There was an error processing your order. Please try again.");
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -179,7 +196,10 @@ export default function CartItems() {
         </div>
 
         {message && (
-          <Alert variant="default" className="m-4 bg-main border-main">
+          <Alert
+            variant="default"
+            className=" max-w-sm mt-1 mx-auto w-full bg-main"
+          >
             <AlertDescription>{message}</AlertDescription>
           </Alert>
         )}
@@ -205,11 +225,7 @@ export default function CartItems() {
                     <div>
                       <h3 className="font-medium">{item.name}</h3>
                       <p className="text-sm text-gray-600">
-                        {new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        }).format(item.price)}{" "}
-                        each
+                        {formatCurrency(item.price)} each
                       </p>
                     </div>
                     <button
@@ -242,10 +258,7 @@ export default function CartItems() {
                       </button>
                     </div>
                     <div className="font-medium">
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(item.price * item.quantity)}
+                      {formatCurrency(item.price * item.quantity)}
                     </div>
                   </div>
                 </div>
@@ -255,30 +268,15 @@ export default function CartItems() {
             <div className="mt-6 border-t pt-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Subtotal</span>
-                <span>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(subtotal)}
-                </span>
+                <span>{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Tax (10%)</span>
-                <span>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(tax)}
-                </span>
+                <span>Tax ({taxPercent * 100}%)</span>
+                <span>{formatCurrency(tax)}</span>
               </div>
               <div className="flex justify-between font-bold text-lg pt-2 border-t">
                 <span>Total</span>
-                <span>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(total)}
-                </span>
+                <span>{formatCurrency(total)}</span>
               </div>
               <div className="space-y-3">
                 <div className="space-y-2">
@@ -310,9 +308,17 @@ export default function CartItems() {
 
               <Button
                 onClick={handleCheckout}
-                className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+                className="w-full mt-4 transition-all duration-200 bg-main hover:bg-main/80 text-white font-semibold py-2 px-4 rounded"
+                disabled={isLoading}
               >
-                Proceed to Checkout
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Proceed to Checkout"
+                )}
               </Button>
             </div>
           </div>

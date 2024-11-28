@@ -4,7 +4,8 @@ import { ViewVerticalIcon } from "@radix-ui/react-icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
-import AdminHeader from "@/components/AdminHeader";
+import AdminMobileNav from "@/components/admin-header-mobile";
+import AdminHeader from "@/components/admin-header";
 
 interface Props {
   title: string;
@@ -141,36 +142,30 @@ const { title } = Astro.props;
   <body>
     <Toaster />
     <div class="flex h-screen bg-gray-100">
-      <AdminHeader client:load />
-
-      <!-- <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="md:hidden fixed left-4 top-4 z-40"
-          >
-            <ViewVerticalIcon className="h-4 w-4" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-          <nav class="flex flex-col gap-4">
-            <a href="#" class="block px-2 py-1 text-lg">Dashboard</a>
-            <a href="#" class="block px-2 py-1 text-lg">Products</a>
-            <a href="#" class="block px-2 py-1 text-lg">Orders</a>
-            <a href="#" class="block px-2 py-1 text-lg">Customers</a>
-          </nav>
-        </SheetContent>
-      </Sheet> -->
-
+      <div class="flex h-screen absolute sm:relative bg-gray-100">
+        <AdminHeader client:load />
+        <div class="flex flex-1 flex-col overflow-hidden">
+          <header class="w-full">
+            <div
+              class="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4"
+            >
+              <AdminMobileNav client:load />
+            </div>
+          </header>
+        </div>
+      </div>
       <div class="flex flex-col flex-1 overflow-hidden">
         <header class="bg-white shadow-sm">
           <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-            <h1 class="text-lg font-semibold text-gray-900">{title}</h1>
+            <h1
+              class="text-lg font-semibold text-gray-900 relative left-12 sm:left-0"
+            >
+              {title}
+            </h1>
           </div>
         </header>
         <main
-          class="flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-5 bg-gray-100"
+          class="flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-5 bg-gray-100 z-10"
         >
           <slot />
         </main>

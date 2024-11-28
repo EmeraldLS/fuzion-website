@@ -44,6 +44,8 @@ try {
   error = "An error occurred while fetching products";
 }
 
+console.log("Products:", products);
+
 const paginationLinks = Array.from({ length: totalPages }, (_, i) => i + 1);
 ---
 
@@ -72,12 +74,12 @@ const paginationLinks = Array.from({ length: totalPages }, (_, i) => i + 1);
         products.map((product) => (
           <TableRow key={product.id}>
             <TableCell>
-              <a href={`/admin/${product.id}`}>{product.name}</a>
+              <a href={`/admin/products/${product.id}`}>{product.name}</a>
             </TableCell>
             <TableCell>{formatCurrency(product.price)}</TableCell>
             <TableCell>{product.is_new ? "Yes" : "No"}</TableCell>
             <TableCell>
-              <a href={`/admin/edit/${product.id}`}>
+              <a href={`/admin/products/edit/${product.id}`}>
                 <Button
                   type="button"
                   variant="outline"

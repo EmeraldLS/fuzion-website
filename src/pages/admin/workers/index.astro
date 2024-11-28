@@ -1,0 +1,152 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import type { MyWorker } from "@/model/model";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+let workers: MyWorker[] = [];
+let error = null;
+let loading = true;
+try {
+  const response = await fetch(`${Astro.url.origin}/api/private/workers`);
+  if (!response.ok) {
+    error = new Error("Failed to fetch workers");
+  }
+
+  workers = await response.json();
+} catch (err) {
+  console.log("Error occured");
+  error = err;
+} finally {
+  loading = false;
+}
+
+console.log("Hello");
+
+console.log(workers);
+---
+
+<AdminLayout title="Workers page">
+  <div class="container mx-auto py-6">
+    <h1 class="text-3xl font-bold mb-6">Workers</h1>
+
+    {
+      error && (
+        <Alert variant="destructive" className="mb-6">
+          {/* @ts-ignore */}
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      )
+    }
+
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>ID</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <!-- <TableBody>
+        {
+          workers &&
+            workers.map((worker) => (
+              <TableRow key={worker.id}>
+                <TableCell>{worker.id}</TableCell>
+                <TableCell>{worker.email}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mr-2 edit-worker"
+                    data-id={worker.id}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="delete-worker"
+                    data-id={worker.id}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+        }
+      </TableBody> -->
+    </Table>
+  </div>
+</AdminLayout>
+
+<script>
+  import { toast } from "@/hooks/use-toast";
+
+  function handleDelete(id: string) {
+    if (confirm("Are you sure you want to delete this worker?")) {
+      fetch(`/api/private/workers/${id}`, { method: "DELETE" }).then(
+        (response) => {
+          if (response.ok) {
+            toast({
+              title: "Worker deleted",
+              description: "The worker has been successfully deleted.",
+            });
+            location.reload();
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Error",
+              description: "Failed to delete worker",
+            });
+          }
+        }
+      );
+    }
+  }
+
+  function handleEdit(id: string) {
+    const newEmail = prompt("Enter new email for the worker:");
+    if (newEmail) {
+      fetch(`/api/private/workers/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: newEmail }),
+      }).then((response) => {
+        if (response.ok) {
+          toast({
+            title: "Worker updated",
+            description: "The worker's email has been successfully updated.",
+          });
+          location.reload();
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Failed to update worker",
+          });
+        }
+      });
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains("delete-worker")) {
+      // @ts-ignore
+      handleDelete(target.dataset.id);
+    } else if (target.classList.contains("edit-worker")) {
+      // @ts-ignore
+      handleEdit(target.dataset.id);
+    }
+  });
+</script>

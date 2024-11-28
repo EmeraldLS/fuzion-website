@@ -6,6 +6,7 @@ import {
   ShoppingCart,
   Users,
   LogOut,
+  User2,
 } from "lucide-react";
 
 export default function AdminHeader() {
@@ -41,10 +42,13 @@ export default function AdminHeader() {
               Orders
             </NavItem>
             <NavItem
-              href="/admin/customers"
-              icon={<Users className="h-5 w-5" />}
+              href="/admin/workers/register"
+              icon={<User2 className="h-5 w-5" />}
             >
-              Customers
+              Register Worker
+            </NavItem>
+            <NavItem href="/admin/workers" icon={<Users className="h-5 w-5" />}>
+              Workers
             </NavItem>
           </nav>
         </div>

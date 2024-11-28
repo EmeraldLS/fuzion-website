@@ -120,7 +120,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
       is_new: body.isNew ?? false,
       name: body.name,
       rating: body.rating ?? 0,
-      discount_percent: body.discountPercent ?? 0,
+      discount_percent: body.discount_percent ?? 0,
       description: body.description,
       size: body.specifications.size,
       motor: body.specifications.motor,

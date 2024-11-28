@@ -4,6 +4,7 @@ import MainLayout from "@/layouts/MainLayout.astro";
 import { Star } from "lucide-react";
 import { formatCurrency } from "@/utils/utils";
 import type { ProductItemResponse } from "@/model/model";
+import { Button } from "@/components/ui/button";
 
 const { id } = Astro.params;
 
@@ -62,7 +63,15 @@ const specifications = product
               <div>
                 <div class="flex items-center justify-between mb-4">
                   <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                    <span>{product.name}</span>
+                    <span>
+                      {product.name}{" "}
+                      <a
+                        href={`/admin/products/edit/${product.id}`}
+                        class="text-sm text-main underline"
+                      >
+                        Edit
+                      </a>
+                    </span>
                     {product.is_new && (
                       <span class="ml-2 px-2 py-1 text-sm bg-green-100 text-green-800 rounded-full">
                         New

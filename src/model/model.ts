@@ -39,3 +39,8 @@ export interface ImageUploadResponse {
   message: string;
   filePath: string;
 }
+
+export interface MyWorker {
+  id: string;
+  email: string;
+}
