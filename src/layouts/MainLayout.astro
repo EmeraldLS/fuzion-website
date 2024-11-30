@@ -11,6 +11,10 @@ const navItems = [
   { name: "Contact Us", path: "/contact" },
   { name: "Brochure", path: "/brochure" },
 ];
+const SERVICE_ID = process.env.EMAIL_JS_SERVICE_ID as string;
+const CONTACT_TEMPLATE_ID = process.env.EMAIL_JS_CONTACT_TEMPLATE_ID as string;
+const QUOTE_TEMPLATE_ID = process.env.EMAIL_JS_QUOTE_TEMPLATE_ID as string;
+const API_KEY = process.env.EMAIL_JS_API_KEY as string;
 ---
 
 <!doctype html>
@@ -243,7 +247,12 @@ const navItems = [
       </div>
     </div>
 
-    <CartItems client:load />
+    <CartItems
+      client:load
+      apiKey={API_KEY}
+      serviceId={SERVICE_ID}
+      templateID={QUOTE_TEMPLATE_ID}
+    />
 
     <script is:inline src="/simpleParallax/simpleParallax.min.js"></script>
     <script is:inline src="/rater-js/rater-js.js"></script>

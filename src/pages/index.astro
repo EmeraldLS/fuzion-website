@@ -5,6 +5,7 @@ import type { ProductItemResponse } from "@/model/model";
 import FeatureProduct from "@/components/FeatureProduct.astro";
 import { Button } from "@/components/ui/button";
 import WhatWeDo from "@/components/what-we-do";
+import { formatCurrency } from "@/utils/utils";
 
 let newProducts: ProductItemResponse[] = [];
 let error = null;
@@ -142,7 +143,7 @@ try {
             <h2 class="text-base font-semibold text-default-600">
               Free Shipping
             </h2>
-            <p class="text-default-400">Orders over $1000</p>
+            <p class="text-default-400">Orders over {formatCurrency(80000)}</p>
           </div>
         </a>
       </div>
@@ -286,158 +287,9 @@ try {
         <p class="text-2xl font-bold uppercase">Free shipping</p>
       </div>
       <p class="text-center text-lg">
-        Free delivery now on your first order and over $1000
+        Free delivery now on your first order and over {formatCurrency(80000)}
       </p>
     </div>
-  </div>
-
-  <div
-    class="relative w-full overflow-hidden after:absolute after:inset-0 after:z-[2] after:h-full after:w-full after:bg-black/50"
-  >
-    <div
-      class="container absolute inset-0 z-[4] mx-auto my-10 px-4 sm:px-8 xl:px-4"
-    >
-      <div class="flex h-full items-center">
-        <div
-          class="swiper swiper-categories group relative flex w-full items-center"
-        >
-          <div class="swiper-wrapper select-none py-12">
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-7.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Laptop
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-3.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Headphone
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-9.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Mobile
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-6.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Watch
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-2.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Speaker
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-12.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Camera
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-14.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Controll
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-16.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Tablet
-              </a>
-            </div>
-            <div class="swiper-slide text-center">
-              <a class="inline-block font-semibold text-white" href="#">
-                <figure
-                  class="mb-2 h-[100px] w-[100px] overflow-hidden rounded-full bg-white p-2 sm:h-36 sm:w-36"
-                >
-                  <img
-                    class="h-full w-full object-contain"
-                    src="img/products/product-17.jpg"
-                    alt="img"
-                  />
-                </figure>
-                Android TV
-              </a>
-            </div>
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
-    </div>
-    <img
-      class="parallax h-full max-h-[410px] w-full object-cover"
-      src="img/banner/banner-5.png"
-      alt="img"
-    />
   </div>
 
   <section class="container mx-auto my-10 px-4 sm:px-8 xl:px-4">

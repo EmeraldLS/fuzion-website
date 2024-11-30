@@ -33,7 +33,17 @@ const saveCartToStorage = (cart: CartItem[]) => {
   window.dispatchEvent(new Event("cartUpdated"));
 };
 
-export default function CartItems() {
+interface CartItemProps {
+  templateID: string;
+  apiKey: string;
+  serviceId: string;
+}
+
+export default function CartItems({
+  templateID,
+  apiKey,
+  serviceId,
+}: CartItemProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [message, setMessage] = useState("");
 
@@ -147,12 +157,7 @@ export default function CartItems() {
         customerEmail: credentials.email,
       };
 
-      await emailjs.send(
-        "service_b54cns6",
-        "template_jlg0vic",
-        templateParams,
-        "nKXc5K2Gk8KCBUaPJ"
-      );
+      await emailjs.send(serviceId, templateID, templateParams, apiKey);
 
       setMessage(
         "Order placed successfully! Check your email for confirmation."
@@ -174,7 +179,7 @@ export default function CartItems() {
         <div className="w-full">
           <div className="border-b-2 p-5">
             <h3 className="text-lg font-bold text-default-600">
-              Shopping Cart {totalItems > 0 && `(${totalItems} items)`}
+              Get Quote {totalItems > 0 && `(${totalItems} items)`}
             </h3>
           </div>
           <button className="close-modal absolute right-5 top-5 p-[3px] text-default-600">
@@ -317,7 +322,7 @@ export default function CartItems() {
                     Processing...
                   </>
                 ) : (
-                  "Proceed to Checkout"
+                  "Proceed to Get Quote"
                 )}
               </Button>
             </div>

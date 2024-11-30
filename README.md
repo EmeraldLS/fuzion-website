@@ -45,3 +45,10 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+TODO:
+contact us form, make it work
+update about us
+change all dollar to rupees and change order over 80k rupees
+fix photo for single product
+change shopping cart to get a quote
