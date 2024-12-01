@@ -52,3 +52,7 @@ update about us
 change all dollar to rupees and change order over 80k rupees
 fix photo for single product
 change shopping cart to get a quote
+
+TODO:
+Take down the prices from the website
+update the email template
