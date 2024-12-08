@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { v4 as uuidv4 } from "uuid";
 import { supabaseAdmin } from "@/lib/supabase";
 
-const BUCKET_NAME = "uploads"; // Replace with your bucket name
+const BUCKET_NAME = "uploads";
 
 export const POST: APIRoute = async ({ request }) => {
   try {

@@ -147,8 +147,8 @@ export default function CartItems({
       }
 
       const templateParams = {
-        orderId: `ORD-${Date.now().toString().slice(-6)}`,
-        orderDate: new Date().toLocaleDateString(),
+        quoteId: `ORD-${Date.now().toString().slice(-6)}`,
+        quoteDate: new Date().toLocaleDateString(),
         itemsList: itemsListHTML,
         subtotal: formatCurrency(subtotal),
         tax: formatCurrency(tax),
@@ -159,9 +159,7 @@ export default function CartItems({
 
       await emailjs.send(serviceId, templateID, templateParams, apiKey);
 
-      setMessage(
-        "Order placed successfully! Check your email for confirmation."
-      );
+      setMessage("Your quote has been sent. We will get back to you shortly.");
       setCart([]);
       saveCartToStorage([]);
       setCredentials({ name: "", email: "" });
